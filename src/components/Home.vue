@@ -1,6 +1,8 @@
 <template>
+    
     <div id="container" class="container" >
-        <vue-word-cloud :words="words"  :color="colors">
+        <!--<v-btn color="Dark" v-on:click.native="updateWords">Actualizar</v-btn>-->
+        <vue-word-cloud v-bind:words="words"  :color="colors">
           <template slot-scope="{word, text, weight}">
             <div style="cursor: pointer;" :title="weight" @click="onWordClick(word)">
               {{ text }}
@@ -11,57 +13,50 @@
 </template>
 
 <script>
+
+import { EventBus } from './event-bus.js';
+
 export default {
   data() {
     return {
-      words: [["romance", 19], ["horror", 3], ["fantasy", 7], ["adventure", 3]],
-      colors:([, weight]) => weight > 7 ? 'SaddleBrown' : weight > 5 ? 'DarkSlateGray' : 'DimGray'
+      words: [],
+      colors: ([, weight]) =>
+        weight > 7 ? "SaddleBrown" : weight > 5 ? "DarkSlateGray" : "DimGray"
     };
   },
   created() {
-    //this.getSpeeches();
+    this.updateWords();
+    EventBus.$on('updateWords', (obj)=>{
+      this.updateWords();
+    });
   },
   methods: {
-    getSpeeches() {
+    updateWords() {
       axios
-        .get("http://localhost:8080/audio/getSpeeches")
+        .get("audio/getUsedWords")
         .then(response => {
           console.log(response);
-          this.words = response.data;
+          this.words = response.data.data;
         })
         .catch(e => {
           console.log(e);
         });
+    },
+    test() {
+      this.words = [["hola", 0], ["cómo", 0], ["estás", 0]];
     }
   }
 };
 </script>
 
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-
 .container {
   width: 100%;
   height: 100%;
   padding-top: 10px;
-  padding-right: 100px;
-  padding-bottom: 100px;
-  padding-left: 100px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
 }
 </style>

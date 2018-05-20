@@ -21,7 +21,7 @@ Vue.component(VueWordCloud.name, VueWordCloud);
 
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
+
 new Vue({
   el: '#app',
   router,
