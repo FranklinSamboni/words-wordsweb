@@ -1,3 +1,8 @@
+# words-wordsweb
+Front que consume el servicio getUsedWords donde obtiene una lista de palabras y el número de veces que estas se repiten. Con estas palabras muestra una nube de palabras usando https://github.com/SeregPie/VueWordCloud
+
+BackEnd https://github.com/FranklinSamboni/words-wordsserver
+
 # words
 
 > A Vue.js project
